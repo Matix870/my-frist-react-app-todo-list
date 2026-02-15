@@ -17,7 +17,7 @@ const InputForm = ({ onAddTask }) => {
         type="text"
         value={taskText}
         onChange={(e) => setTaskText(e.target.value)}
-        placeholder="Wpisz zadanie"
+        placeholder="Dodaj nowe zadanie"
         style={{
           flex: 1,
           padding: "12px",
