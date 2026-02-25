@@ -6,6 +6,7 @@ import "./App.css";
 function App() {
   const [tasks, setTasks] = useState([]);  
   const [selectedColor, setSelectedColor] = useState('#00ff59');
+  const [bgImage, setBgImage] = useState(null);
 
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -24,14 +25,32 @@ function App() {
     return `${hours}:${minutes}:${seconds}`;
   };
 
+  const handleBgUpload = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setBgImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
 const handleColorChange = (color) => {
   setSelectedColor(color);
 };
 
-const addTask = (taskText) => {
+const addTask = (taskText, taskDescription = '', taskEmoji = '') => {
   setTasks([
     ...tasks,
-    { id: Date.now(), text: taskText, completed: false, color: selectedColor }
+    {
+      id: Date.now(),
+      text: taskText,
+      description: taskDescription,
+      emoji: taskEmoji,
+      completed: false,
+      color: selectedColor,
+    }
   ]);
 };
 
@@ -46,10 +65,30 @@ const toggleTask = (id) => {
 };
 
 return (    
-  <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-blue-800 to-purple-900 text-white">      
+  <div
+    className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-blue-800 to-purple-900 text-white overflow-hidden"
+    style={
+      bgImage
+        ? {
+            backgroundImage: `url(${bgImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }
+        : undefined
+    }
+  >      
     <div className="card w-full max-w-xl bg-gray-800 shadow-2xl">
       <div className="card-body p-6">
         <h1 className="card-title text-4xl font-bold text-white mb-4">Lista zadań</h1>
+        <div className="mb-4">
+          <label className="block text-white mb-2">Tło (obraz):</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleBgUpload}
+            className="text-sm text-white"
+          />
+        </div>
         
         <TaskList 
           tasks={tasks} 
@@ -77,5 +116,6 @@ return (
 
 };  
 export default App;
+
 
 
