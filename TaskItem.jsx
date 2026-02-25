@@ -21,33 +21,41 @@ const TaskItem = ({ task, onDelete, onToggle }) => {
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
         width: "100%"
       }}
-      className="flex items-center justify-between"
+      className="flex flex-col"
     >
-      <label className="flex-1 flex items-center cursor-pointer">
-        <input
-          type="checkbox"
-          checked={task.completed}
-          onChange={() => onToggle?.(task.id)}
-          className="mr-2"
-        />
-        <span
-          className="text-xl"
-          style={{
-            color: textColor,
-            textDecoration: task.completed ? 'line-through' : 'none'
-          }}
-        >
-          {task.text}
-        </span>
-      </label>
-      {onDelete && (
-        <button
-          onClick={() => onDelete(task.id)}
-          className="ml-3 text-red-500 font-bold text-2xl hover:text-red-700 transition-colors"
-          title="Usuń zadanie"
-        >
-          ×
-        </button>
+      <div className="flex items-center justify-between">
+        <label className="flex-1 flex items-center cursor-pointer">
+          <input
+            type="checkbox"
+            checked={task.completed}
+            onChange={() => onToggle?.(task.id)}
+            className="mr-2"
+          />
+          <span
+            className="text-xl flex items-center"
+            style={{
+              color: textColor,
+              textDecoration: task.completed ? 'line-through' : 'none'
+            }}
+          >
+            {task.emoji && <span className="mr-2">{task.emoji}</span>}
+            {task.text}
+          </span>
+        </label>
+        {onDelete && (
+          <button
+            onClick={() => onDelete(task.id)}
+            className="ml-3 text-red-500 font-bold text-2xl hover:text-red-700 transition-colors"
+            title="Usuń zadanie"
+          >
+            ×
+          </button>
+        )}
+      </div>
+      {task.description && (
+        <p className="text-sm mt-1" style={{ color: textColor }}>
+          {task.description}
+        </p>
       )}
     </div>
   );
