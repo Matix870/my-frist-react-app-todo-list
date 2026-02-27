@@ -97,5 +97,3 @@ function InputForm({ onAddTask, selectedColor, onColorChange }) {
   );
 }
 
-export default InputForm;
-
